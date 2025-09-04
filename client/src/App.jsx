@@ -1,4 +1,4 @@
-import {React, useEffect} from "react";
+import { React, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ClerkProvider, useAuth } from "@clerk/clerk-react";
 import Home from "./pages/Home";
@@ -11,19 +11,14 @@ import RemoveObject from "./pages/RemoveObjects";
 import RemoveBackground from "./pages/RemoveBackground";
 import GenerateImages from "./pages/GenerateImages";
 import ReviewResume from "./pages/ReviewResume";
+import { Toaster } from "react-hot-toast";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 const App = () => {
-
-  const {getToken} = useAuth()
-  
-  useEffect(() => {
-      getToken().then((token) => console.log(token));
-
-  }, [])
   return (
-    
+    <div>
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/ai" element={<Layout />}>
@@ -37,7 +32,7 @@ const App = () => {
           <Route path="review-resume" element={<ReviewResume />} />
         </Route>
       </Routes>
-    
+    </div>
   );
 };
 
