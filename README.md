@@ -1,8 +1,6 @@
 # 🌌 Aura AI — Your AI-Powered Creativity Hub  
 
 [![Website](https://img.shields.io/badge/Website-Live-brightgreen)](https://aura-ai-hazel.vercel.app/)  
-[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)  
-
 ---
 
 ## 🚀 Overview  
