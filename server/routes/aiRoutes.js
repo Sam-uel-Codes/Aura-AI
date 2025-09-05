@@ -9,6 +9,6 @@ aiRouter.post('/blog-titles', auth, generateBlogTitle);
 aiRouter.post('/generate-image', upload.single('image'), auth, generateImage);
 aiRouter.post('/remove-background', upload.single('image'), auth, removeImageBackground);
 aiRouter.post('/remove-objects', upload.single('image'), auth, removeImageObject);
-aiRouter.post('/review-resume', upload.single('image'), auth, resumeReview);
+aiRouter.post('/review-resume', upload.single('resume'), auth, resumeReview);
 
 export default aiRouter

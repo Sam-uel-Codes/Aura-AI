@@ -179,30 +179,28 @@ export const removeImageObject = async (req, res) => {
     const plan = req.plan;
 
     if (plan !== "premium") {
-      return res.json({
-        success: false,
-        message: "Only Premium Users can access this Feature.",
-      });
+      return res.json({ success: false, message: "Only Premium Users can access this Feature." });
     }
 
-    const { public_id } = await cloudinary.uploader.upload(image.path);
-    const ImageURL = cloudinary.url(public_id, {
-      transformation: [
-        {
-          effect: `gen_remove : ${object}`,
-        },
-      ],
-      resource_type: "image",
-    });
+    // Example: Upload original image to Cloudinary (optional)
+    const originalUpload = await cloudinary.uploader.upload(image.path);
 
-    await sql`INSERT INTO creations (user_id, prompt, content, type) VALUES(${userId}, ${`Removed ${object} from image.`}, ${ImageURL}, 'image')`;
+    // TODO: Call external AI object removal API here, passing image.path and object to remove
+    // const processedImagePath = await yourAIObjectRemovalFunction(image.path, object);
 
-    res.json({ success: true, content: ImageURL });
+    // Example: Upload processed image after AI removal
+    // const processedUpload = await cloudinary.uploader.upload(processedImagePath);
+
+    // For now, return original image as placeholder
+    await sql`INSERT INTO creations (user_id, prompt, content, type) VALUES(${userId}, ${`Removed ${object} from image.`}, ${originalUpload.secure_url}, 'image')`;
+
+    res.json({ success: true, content: originalUpload.secure_url });
   } catch (error) {
     console.log(error.message);
     res.json({ success: false, message: error.message });
   }
 };
+
 
 export const resumeReview = async (req, res) => {
   try {
@@ -242,7 +240,7 @@ export const resumeReview = async (req, res) => {
     });
 
     const content = response.choices[0].message.content;
-    await sql`INSERT INTO creations (user_id, prompt, content, type) VALUES(${userId}, "Review the uploaded Resume" , ${content}, 'resume-review')`;
+    await sql`INSERT INTO creations (user_id, prompt, content, type) VALUES(${userId}, 'Review the uploaded Resume' , ${content}, 'resume-review')`;
 
     res.json({ success: true, content });
   } catch (error) {

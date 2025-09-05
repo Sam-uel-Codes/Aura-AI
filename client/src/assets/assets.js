@@ -1,4 +1,7 @@
 import logo from "./logo.svg";
+import Aura_AI from "./Aura_AI.svg"
+import Aura_AI_photo from "./Aura_AI_photo.png"
+import aura_ai_overlay from "./aura_ai_overlay.svg"
 import gradientBackground from "./gradientBackground.png";
 import user_group from "./user_group.png";
 import star_icon from "./star_icon.svg";
@@ -12,6 +15,10 @@ import ai_gen_img_3 from "./ai_gen_img_3.png";
 
 export const assets = {
     logo,
+    Aura_AI,
+    Aura_AI_photo,
+    aura_ai_overlay,
+    
     gradientBackground,
     user_group,
     star_icon,

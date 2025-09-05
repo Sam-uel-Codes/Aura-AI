@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Scissors, Wand, Sparkles } from "lucide-react";
+import { Sparkles, Scissors, Wand } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@clerk/clerk-react";
@@ -7,9 +7,9 @@ import { useAuth } from "@clerk/clerk-react";
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const RemoveObject = () => {
-  const [input, setInput] = useState(null); // Selected file
+  const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No file chosen");
-  const [object, setObject] = useState(""); // Description of object to remove
+  const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState("");
 
@@ -17,26 +17,24 @@ const RemoveObject = () => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    setInput(selectedFile);
-    if (selectedFile) {
-      setFileName(selectedFile.name);
-    } else {
-      setFileName("No file chosen");
-    }
+    setFile(selectedFile);
+    setFileName(selectedFile ? selectedFile.name : "No file chosen");
   };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    if (!input) {
+    if (!file) {
       toast.error("Please select a file first");
       return;
     }
-    if (!object.trim()) {
+
+    if (!description.trim()) {
       toast.error("Please describe the object to remove");
       return;
     }
-    if(object.split(' ').length > 1){
+
+    if (description.trim().split(" ").length > 1) {
       toast.error("Please describe only one object");
       return;
     }
@@ -45,22 +43,23 @@ const RemoveObject = () => {
       setLoading(true);
 
       const formData = new FormData();
-      formData.append("image", input);
-      formData.append("object", object);
+      formData.append("image", file);
+      formData.append("object", description);
 
       const { data } = await axios.post("/api/ai/remove-objects", formData, {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
+          "Content-Type": "multipart/form-data",
         },
       });
 
-      if (data.success) {
+      if (data.success && data.content) {
         setContent(data.content);
       } else {
-        toast.error(data.message);
+        toast.error(data.message || "Failed to remove object");
       }
     } catch (error) {
-      toast.error(error.message || "An error occurred");
+      toast.error(error.message || "An error occurred during object removal");
     } finally {
       setLoading(false);
     }
@@ -97,15 +96,18 @@ const RemoveObject = () => {
           Describe object to remove
         </p>
         <textarea
-          value={object}
-          onChange={(e) => setObject(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           placeholder="e.g., car in background, tree from the image"
           rows="5"
           className="w-full resize-none p-2 px-3 outline-none text-sm rounded-md border border-gray-300 placeholder-gray-400"
           required
         />
         <p className="mt-2 text-xs text-gray-400">
-          Be specific about what you want to remove
+          Be specific about what you want to remove <br />
+          <span>
+            <i>Still a beta feature, working on</i>
+          </span>
         </p>
 
         <button
@@ -125,9 +127,23 @@ const RemoveObject = () => {
           <h1 className="text-xl font-semibold">Processed Image</h1>
         </div>
         {content ? (
-          <div className="flex justify-center mt-4">
-            <img src={content} alt="Processed" className="max-w-full max-h-[540px]" />
-          </div>
+          content.startsWith("http") ? (
+            <div className="flex justify-center mt-4">
+              <img
+                src={content}
+                alt="Processed"
+                className="max-w-full max-h-[540px]"
+              />
+            </div>
+          ) : (
+            <div className="flex justify-center mt-4">
+              <img
+                src={`data:image/png;base64,${content}`}
+                alt="Processed"
+                className="max-w-full max-h-[540px]"
+              />
+            </div>
+          )
         ) : (
           <div className="flex-1 flex justify-center items-center">
             <div className="text-sm flex flex-col items-center gap-5 text-gray-400 text-center">

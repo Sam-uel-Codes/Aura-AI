@@ -13,13 +13,13 @@ const Layout = () => {
   return user ? (
     <div className="relative min-h-screen">
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-4 sm:px-20 xl:px-32 py-4 bg-white shadow-sm sticky top-0 z-50">
-        
+      <nav className="flex items-center justify-between px-4 sm:px-20 xl:px-32 py-2 bg-white shadow-sm sticky top-0 z-50">
         <img
-          src={assets.logo}
+          src={assets.Aura_AI_photo}
           alt="Aura AI Logo"
           onClick={() => navigate("/")}
-          className="h-8 md:h-9 cursor-pointer w-32 sm:w-44"
+          className="h-8 sm:h-12 cursor-pointer"
+          style={{ objectFit: "contain", paddingLeft: "0.5rem" }}
         />
         {/* Mobile Menu Icon */}
         <div
