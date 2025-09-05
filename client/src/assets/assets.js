@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import Aura_AI_photo from "./Aura_AI_photo.png";
 import gradientBackground from "./gradientBackground.png";
 import user_group from "./user_group.png";
@@ -19,7 +18,7 @@ import ai_gen_img_2 from "./ai_gen_img_2.png";
 import ai_gen_img_3 from "./ai_gen_img_3.png";
 
 export const assets = {
-  logo,
+
   Aura_AI_photo,
   gradientBackground,
   user_group,
