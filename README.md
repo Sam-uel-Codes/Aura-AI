@@ -58,7 +58,13 @@ git clone https://github.com/yourusername/aura-ai.git
 cd aura-ai
 npm install
 
+````
 Environment Setup
+
+Create a .env file with:
+
+```bash
+
 DATABASE_URL=your_database_url
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
@@ -67,12 +73,22 @@ GEMINI_API_KEY=your_google_gemini_api_key
 CLIP_DROP_API_KEY=your_clipdrop_api_key
 CLERK_API_KEY=your_clerk_api_key
 
+
+````
+
+📂 Project Structure
+```bash
+
 /client      # React frontend  
 /server      # Node.js backend  
 /configs     # Database & cloud configs  
 /components  # Reusable React components  
 /pages       # React Router pages  
-/utils       # Helpers & utilities  
+/utils       # Helpers & utilities
 
----
-Would you like me to also **add shields for tech stack** (React, Node.js, PostgreSQL, Tailwind, etc.) so the README looks even more professional at first glance?
+````
+
+🙌 Acknowledgments
+
+Inspired by modern open-source AI SaaS platforms.
+Powered by OpenAI, Google, Cloudinary, Clerk, NeonDB, and more.
